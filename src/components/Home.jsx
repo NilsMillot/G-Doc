@@ -1,6 +1,9 @@
-import { Box } from "@mui/material";
+import { Box, IconButton } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import Slider from "./Slider";
+import CreateRoundedIcon from "@mui/icons-material/CreateRounded";
+import DeleteIcon from "@mui/icons-material/Delete";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 
 export default function Home() {
   const slides = [
@@ -38,6 +41,7 @@ export default function Home() {
           width: "90vw",
           height: "80vh",
           margin: "20px auto 0 auto",
+          position: "relative",
         }}
       >
         <Slider slides={slides} setCurrentSlide={setCurrentSlide} />
@@ -51,6 +55,48 @@ export default function Home() {
         >
           {currentSlide.description}
         </Box>
+        <IconButton
+          sx={{ position: "absolute", bottom: "20px", right: "10px" }}
+          aria-label="update"
+          size="large"
+          onClick={() => {
+            alert(
+              'Vous avez cliqué sur le bouton "Update pour la slide ayant pour titre", "' +
+                currentSlide.title +
+                '"'
+            );
+          }}
+        >
+          <CreateRoundedIcon
+            sx={{ height: "40px", width: "40px" }}
+          ></CreateRoundedIcon>
+        </IconButton>
+        <IconButton
+          sx={{ position: "absolute", bottom: "90px", right: "10px" }}
+          aria-label="delete"
+          size="large"
+          onClick={() => {
+            alert(
+              'Vous avez cliqué sur le bouton "Delete la slide ayant pour titre", "' +
+                currentSlide.title +
+                '"'
+            );
+          }}
+        >
+          <DeleteIcon sx={{ height: "40px", width: "40px" }}></DeleteIcon>
+        </IconButton>
+        <IconButton
+          sx={{ position: "absolute", bottom: "160px", right: "10px" }}
+          aria-label="add"
+          size="large"
+          onClick={() => {
+            alert('Vous avez cliqué sur le bouton "Add"');
+          }}
+        >
+          <AddCircleOutlineIcon
+            sx={{ height: "40px", width: "40px" }}
+          ></AddCircleOutlineIcon>
+        </IconButton>
       </Box>
     </>
   );
