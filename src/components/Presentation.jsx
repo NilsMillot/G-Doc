@@ -5,10 +5,10 @@ import CreateRoundedIcon from "@mui/icons-material/CreateRounded";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 
-export default function Home() {
+export default function Presentation({ slidesInDb }) {
   const slides = [
     {
-      title: "Welcome to the First Slide",
+      title: "This is the title of First Slide",
       description:
         "<h2>This is the first slide.</h2><br><h3>This is a simple application that allows you to create a new user and to login to the application.</h3>",
     },
@@ -17,11 +17,18 @@ export default function Home() {
       description: "<bold>This is the second slide.</bold>",
     },
     {
-      title: "Welcome to the Home Page",
+      title: "3rd slide",
       description:
         "<h2>This is the home page of the application.</h2><br><h3>This is a simple application that allows you to create a new user and to login to the application.</h3>",
     },
   ];
+
+  // next, use slides from the database
+  console.log(
+    "%cPresentation.jsx line:25 slidesInDb",
+    "color: #007acc;",
+    slidesInDb
+  );
 
   const [currentSlide, setCurrentSlide] = useState(slides[0]);
 
