@@ -68,7 +68,7 @@ export default function Presentation({ slidesInDb }) {
           size="large"
           onClick={() => {
             alert(
-              'Vous avez cliqué sur le bouton "Update pour la slide ayant pour titre", "' +
+              'Redirect sur /edit/{slideId} pour la slide: "' +
                 currentSlide.title +
                 '"'
             );
@@ -84,9 +84,7 @@ export default function Presentation({ slidesInDb }) {
           size="large"
           onClick={() => {
             alert(
-              'Vous avez cliqué sur le bouton "Delete la slide ayant pour titre", "' +
-                currentSlide.title +
-                '"'
+              'Delete la slide ayant pour titre "' + currentSlide.title + '"'
             );
           }}
         >
@@ -97,7 +95,7 @@ export default function Presentation({ slidesInDb }) {
           aria-label="add"
           size="large"
           onClick={() => {
-            alert('Vous avez cliqué sur le bouton "Add"');
+            alert("Add une nouvelle slide sur cette présentation");
           }}
         >
           <AddCircleOutlineIcon
