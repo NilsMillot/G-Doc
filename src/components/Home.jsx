@@ -1,6 +1,7 @@
 import { Box } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import Slider from "./Slider";
+import Reveal from "./Reveal";
 
 export default function Home() {
   const slides = [
@@ -23,7 +24,7 @@ export default function Home() {
   const [currentSlide, setCurrentSlide] = useState(slides[0]);
 
   useEffect(() => {
-    let zone = document.querySelector("#contentOfSlide");
+    let zone = document.querySelector(".slides").children;
     zone.innerHTML = currentSlide?.description;
   }, [currentSlide]);
   return (
@@ -41,16 +42,18 @@ export default function Home() {
         }}
       >
         <Slider slides={slides} setCurrentSlide={setCurrentSlide} />
-        <Box
+        <Reveal/>
+
+        {/* <Box
           id="contentOfSlide"
           sx={{
             border: "1px solid black",
             padding: "20px",
             width: "100%",
           }}
-        >
-          {currentSlide.description}
-        </Box>
+        > */}
+          {/* {currentSlide.description}
+        </Box> */}
       </Box>
     </>
   );
