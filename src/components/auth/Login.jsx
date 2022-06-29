@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, TextField, Button } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import {
   signInWithEmailAndPassword,
@@ -25,7 +25,7 @@ export default function Login() {
   const register = () => {
     createUserWithEmailAndPassword(auth, email, password)
       .then((auth) => {
-        console.log(auth);
+        signIn();
       })
       .catch((error) => {
         console.log(error);
@@ -47,27 +47,28 @@ export default function Login() {
         }}
       >
         <h1>Sign in</h1>
-        <label>Email</label>
-        <input
-          type="email"
-          name="email"
+        <TextField
+          id="outlined-basic"
+          label="Email"
+          variant="outlined"
           onChange={(event) => setEmail(event.target.value)}
         />
-        <label>Password</label>
-        <input
-          type="password"
-          name="password"
+        <TextField
+          id="outlined-basic"
+          label="Password"
+          variant="outlined"
           onChange={(event) => setPassword(event.target.value)}
         />
-        <button onClick={signIn}>Sign in</button>
-        <button
+        <Button variant="contained" onClick={signIn}>
+          Sign in
+        </Button>
+        <Button
           onClick={() => {
-            console.log("register");
             navigate("/register");
           }}
         >
-          Register
-        </button>
+          Sign up ?
+        </Button>
       </Box>
     </>
   );

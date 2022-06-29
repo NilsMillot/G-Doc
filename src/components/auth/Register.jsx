@@ -1,26 +1,36 @@
-import { Box } from "@mui/material";
+import { Box, TextField, Button } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth";
+import {
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+} from "firebase/auth";
 import { auth } from "../../firebaseConfig";
 import { useNavigate } from "react-router-dom";
 
 export default function Login() {
+  const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-    const navigate = useNavigate();
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+  const signIn = () => {
+    signInWithEmailAndPassword(auth, email, password)
+      .then((auth) => {
+        navigate("/home");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
-    const signIn = () => {
-        signInWithEmailAndPassword(auth, email, password)
-        .then(auth => {navigate("/home")})
-        .catch(error => {console.log(error)})
-    }
-
-    const register = () => {
-        createUserWithEmailAndPassword(auth, email, password)
-        .then(auth => {console.log(auth)})
-        .catch(error => {console.log(error)})
-    }
+  const register = () => {
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((auth) => {
+        console.log(auth);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   return (
     <>
@@ -36,13 +46,30 @@ export default function Login() {
           margin: "20px auto 0 auto",
         }}
       >
-          <h1>Register</h1>
-          <label>Email</label>
-          <input type="email" name="email" onChange={(event)=>setEmail(event.target.value)}/>
-          <label>Password</label>
-          <input type="password" name="password" onChange={(event)=>setPassword(event.target.value)}/>
-          <button onClick={register}>Register</button>
-          <button onClick={()=>navigate("/")}>Already an account ?</button>
+        <h1>Register</h1>
+        <TextField
+          id="outlined-basic"
+          label="Email"
+          variant="outlined"
+          onChange={(event) => setEmail(event.target.value)}
+        />
+        <TextField
+          id="outlined-basic"
+          label="Password"
+          variant="outlined"
+          onChange={(event) => setPassword(event.target.value)}
+        />
+
+        <Button variant="contained" onClick={register}>
+          Register
+        </Button>
+        <Button
+          onClick={() => {
+            navigate("/");
+          }}
+        >
+          Already an account?
+        </Button>
       </Box>
     </>
   );

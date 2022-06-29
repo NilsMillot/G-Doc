@@ -1,8 +1,20 @@
-import { Box } from "@mui/material";
+import { Box, Button } from "@mui/material";
+import { auth } from "../firebaseConfig";
 import React, { useEffect, useState } from "react";
 import Slider from "./Slider";
+import { useNavigate } from "react-router-dom";
+import { useAuthState } from "react-firebase-hooks/auth";
 
 export default function Home() {
+  const navigate = useNavigate();
+  const [user, loading, error] = useAuthState(auth);
+  const [connected, setConnected] = useState(false);
+  const signOut = () => {
+    console.log(auth);
+    auth.signOut().then(() => {
+      console.log(auth), navigate("/");
+    });
+  };
   const slides = [
     {
       title: "Welcome to the First Slide",
@@ -23,35 +35,50 @@ export default function Home() {
   const [currentSlide, setCurrentSlide] = useState(slides[0]);
 
   useEffect(() => {
-    let zone = document.querySelector("#contentOfSlide");
-    zone.innerHTML = currentSlide?.description;
-  }, [currentSlide]);
-  return (
-    <>
-      <Box as="h1" sx={{ textAlign: "center", marginTop: "20px" }}>
-        Votre présentation
-      </Box>
-      <Box
-        sx={{
-          background: "lightgray",
-          display: "flex",
-          width: "90vw",
-          height: "80vh",
-          margin: "20px auto 0 auto",
-        }}
-      >
-        <Slider slides={slides} setCurrentSlide={setCurrentSlide} />
+    user?.email ? setConnected(true) : setConnected(false);
+  }, [user]);
+
+  console.log(user);
+
+  if (connected) {
+    return (
+      <>
+        <Box as="h1" sx={{ textAlign: "center", marginTop: "20px" }}>
+          Votre présentation
+          <Button variant="contained" onClick={signOut}>
+            SIGN OUT {user?.email ? user?.email : "null"}
+          </Button>
+        </Box>
         <Box
-          id="contentOfSlide"
           sx={{
-            border: "1px solid black",
-            padding: "20px",
-            width: "100%",
+            background: "lightgray",
+            display: "flex",
+            width: "90vw",
+            height: "80vh",
+            margin: "20px auto 0 auto",
           }}
         >
-          {currentSlide.description}
+          <Slider slides={slides} setCurrentSlide={setCurrentSlide} />
+          <Box
+            id="contentOfSlide"
+            sx={{
+              border: "1px solid black",
+              padding: "20px",
+              width: "100%",
+            }}
+          >
+            {currentSlide.description}
+          </Box>
         </Box>
-      </Box>
-    </>
-  );
+      </>
+    );
+  } else {
+    return (
+      <>
+        <Box as="h1" sx={{ textAlign: "center", marginTop: "20px" }}>
+          NO ACCOUNT
+        </Box>
+      </>
+    );
+  }
 }
