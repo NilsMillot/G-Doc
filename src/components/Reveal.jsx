@@ -1,18 +1,18 @@
 import React from "react";
 
-export default function Reveal() {
-  return (
+export default function Reveal({slides}) {
+    return (
     <div
       className="reveal" >
         <h1></h1>
         <div className="slides">
             <section>
-            <section data-background-gradient="linear-gradient(to bottom, #283b95, #17b2c3)">
-              <h2>Pooo</h2>
+            {slides.map((slide, index) => (
+            <section  key={index} data-background-color={ slide.background }>
+                <h1>{slide.title}</h1>
+                <div dangerouslySetInnerHTML={{__html:  slide.description}}></div>
             </section>
-            <section data-background-gradient="radial-gradient(#283b95, #17b2c3)">
-              <h2>🐳</h2>
-            </section>
+             ))}
             </section>
         </div>
     </div>
