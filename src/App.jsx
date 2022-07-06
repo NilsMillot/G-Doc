@@ -1,10 +1,13 @@
 import { Routes, Route } from "react-router-dom";
-import Home from "./components/Home";
+import ViewSlidePresentation from "./components/ViewSlidePresentation";
+import Presentation from "./components/Presentation";
+import { database } from "./firebaseConfig";
 
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<Home />} />
+      <Route path="/presentation" element={<ViewSlidePresentation />} />
+      <Route path="/" element={<Presentation slidesInDb={database} />} />
     </Routes>
   );
 }
