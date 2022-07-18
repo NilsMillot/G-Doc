@@ -79,14 +79,14 @@ export default function Presentations({ slidesInDb }) {
               borderRadius: "20px",
               color: "white",
               padding: "10px",
-              margin: "10px 0",
+              margin: "10px",
               fontSize: "1.5rem",
               textAlign: "center",
             }}
           >
             <span>{presentation.title}</span>
             <IconButton
-              sx={{ position: "absolute", bottom: "-12px", right: "-30px" }}
+              sx={{ position: "absolute", bottom: "-4px", right: "-30px" }}
               aria-label="update"
               onClick={() => {
                 console.log("doit editer cette slide: ");
@@ -97,7 +97,7 @@ export default function Presentations({ slidesInDb }) {
               ></CreateRoundedIcon>
             </IconButton>
             <IconButton
-              sx={{ position: "absolute", bottom: "30px", right: "-30px" }}
+              sx={{ position: "absolute", bottom: "25px", right: "-30px" }}
               aria-label="delete"
               onClick={() => {
                 console.log("doit supprimer cette slide: ");
