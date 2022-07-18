@@ -7,8 +7,11 @@ import EditSlide from "./components/EditSlide/EditSlide";
 function App() {
   return (
     <Routes>
-      <Route path="/presentation" element={<ViewSlidePresentation />} />
-      <Route path="/" element={<Presentations slidesInDb={database} />} />
+      <Route
+        path="/presentation/:presentationId"
+        element={<ViewSlidePresentation slidesInDb={database} />}
+      />
+      <Route path="/" element={<Presentations />} />
       <Route
         path="/edit-slide/:id"
         element={<EditSlide database={database} />}

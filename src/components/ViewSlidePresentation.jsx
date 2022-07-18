@@ -1,35 +1,48 @@
-import { Box, IconButton } from "@mui/material";
+import { Box } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import Reveal from "./Reveal";
 import Slider from "./Slider";
 import Rv from "./Rv";
 import ListButtons from "./ListButtons";
+import { collection, getDocs } from "firebase/firestore";
 
-export default function ViewSlidePresentation() {
+export default function ViewSlidePresentation({ slidesInDb }) {
   const [reveal, setReveal] = useState(null);
+  const [slides, setSlides] = useState([]);
+
+  const slideCollectionRef = collection(slidesInDb, "slides");
+
+  const getData = () => {
+    const docSnap = getDocs(slideCollectionRef);
+    docSnap.then((docs) => {
+      setSlides(docs.docs.map((doc) => doc.data()));
+    });
+  };
+
   useEffect(() => {
     setReveal(new Rv());
+    getData();
   }, []);
 
-  const slides = [
-    {
-      title: "Welcome to the First Slide",
-      description:
-        "<h2>This is the first slide.</h2><br><h3>This is a simple application that allows you to create a new user and to login to the application.</h3>",
-      // background:"aquamarine"
-    },
-    {
-      title: "Here is the second slide",
-      description: "<bold>This is the second slide.</bold>",
-      // background:"blue"
-    },
-    {
-      title: "Welcome to the Home Page",
-      description:
-        "<h2>This is the home page of the application.</h2><br><h3>This is a simple application that allows you to create a new user and to login to the application.</h3>",
-      // background:"purple"
-    },
-  ];
+  // const slides = [
+  //   {
+  //     title: "Welcome to the First Slide",
+  //     description:
+  //       "<h2>This is the first slide.</h2><br><h3>This is a simple application that allows you to create a new user and to login to the application.</h3>",
+  //     // background:"aquamarine"
+  //   },
+  //   {
+  //     title: "Here is the second slide",
+  //     description: "<bold>This is the second slide.</bold>",
+  //     // background:"blue"
+  //   },
+  //   {
+  //     title: "Welcome to the Home Page",
+  //     description:
+  //       "<h2>This is the home page of the application.</h2><br><h3>This is a simple application that allows you to create a new user and to login to the application.</h3>",
+  //     // background:"purple"
+  //   },
+  // ];
 
   return (
     <>

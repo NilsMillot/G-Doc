@@ -1,11 +1,10 @@
 import { Box, IconButton } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import Slider from "./Slider";
 import CreateRoundedIcon from "@mui/icons-material/CreateRounded";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 
-export default function Presentations({ slidesInDb }) {
+export default function Presentations() {
   const presentations = [
     {
       title: "Title of first presentation",
@@ -39,12 +38,6 @@ export default function Presentations({ slidesInDb }) {
     },
   ];
 
-  // next, use slides from the database
-  console.log(
-    "%cPresentation.jsx line:25 slidesInDb",
-    "color: #007acc;",
-    slidesInDb
-  );
   return (
     <Box
       sx={{
