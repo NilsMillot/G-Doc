@@ -3,40 +3,72 @@ import React, { useEffect, useState } from "react";
 import CreateRoundedIcon from "@mui/icons-material/CreateRounded";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import { collection, getDocs } from "firebase/firestore";
 
-export default function Presentations() {
-  const presentations = [
-    {
-      title: "Title of first presentation",
-      slides: [
-        {
-          title: "This is the title of First Slide",
-          description: "This is the description of First Slide",
-        },
-        {
-          title: "This is the title of 2nd Slide",
-          description: "This is the description of Scnd Slide",
-        },
-        {
-          title: "This is the title of 3rd Slide",
-          description: "desc 3rd Slide",
-        },
-      ],
-    },
-    {
-      title: "Title of 2nd presentation",
-      slides: [],
-    },
-    {
-      title: "Title of 3rd presentatio fezefzez ezfn",
-      slides: [
-        {
-          title: "1st Slide",
-          description: "This is the description of 2nde Slide",
-        },
-      ],
-    },
-  ];
+export default function Presentations({ db }) {
+  const presentationsCollectionRef = collection(db, "presentations");
+  const presentations = [];
+
+  useEffect(() => {
+    getDocs(presentationsCollectionRef).then((presentation) => {
+      presentation.docs.map((doc) => {
+        // console.log(
+        //   "%cPresentations.jsx line:14 doc",
+        //   "color: #007acc;",
+        //   doc.data()
+        // );
+        presentations.push(doc.data());
+        console.log(
+          "%cPresentations.jsx line:21 presentations",
+          "color: #007acc;",
+          presentations
+        );
+      });
+      // console.log(
+      //   "%cPresentations.jsx line:22 presentation.docs",
+      //   "color: #007acc;",
+      //   presentation.docs.data()
+      // );
+    });
+  }, []);
+  console.log(
+    "%cPresentations.jsx line:29 presentations",
+    "color: #007acc;",
+    presentations
+  );
+
+  // const presentations = [
+  //   {
+  //     title: "Title of first presentation",
+  //     slides: [
+  //       {
+  //         title: "This is the title of First Slide",
+  //         description: "This is the description of First Slide",
+  //       },
+  //       {
+  //         title: "This is the title of 2nd Slide",
+  //         description: "This is the description of Scnd Slide",
+  //       },
+  //       {
+  //         title: "This is the title of 3rd Slide",
+  //         description: "desc 3rd Slide",
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     title: "Title of 2nd presentation",
+  //     slides: [],
+  //   },
+  //   {
+  //     title: "Title of 3rd presentatio fezefzez ezfn",
+  //     slides: [
+  //       {
+  //         title: "1st Slide",
+  //         description: "This is the description of 2nde Slide",
+  //       },
+  //     ],
+  //   },
+  // ];
 
   return (
     <Box

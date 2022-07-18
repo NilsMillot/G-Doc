@@ -11,7 +11,7 @@ function App() {
         path="/presentation/:presentationId"
         element={<ViewSlidePresentation slidesInDb={database} />}
       />
-      <Route path="/" element={<Presentations />} />
+      <Route path="/" element={<Presentations db={database} />} />
       <Route
         path="/edit-slide/:id"
         element={<EditSlide database={database} />}
