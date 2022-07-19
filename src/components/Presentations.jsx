@@ -7,6 +7,14 @@ import DeleteModal from "./Modals/DeleteModal";
 import CreatePresentationModal from "./Modals/CreatePresentationModal";
 import { v4 as uuidv4 } from 'uuid';
 import PresentationCard from "./Cards/PresentationCard";
+import {
+  collection,
+  deleteDoc,
+  doc,
+  getDocs,
+  setDoc,
+} from "firebase/firestore";
+import { v4 as uuidv4 } from "uuid";
 
 export default function Presentations({ db }) {
   const [presentations, setPresentations] = useState([]);
