@@ -1,10 +1,8 @@
-import { Box, IconButton } from "@mui/material";
+import { Box } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import CreateRoundedIcon from "@mui/icons-material/CreateRounded";
 import { collection, deleteDoc, doc, getDocs } from "firebase/firestore";
-import { Link } from "react-router-dom";
-import DeleteModal from "./Modals/DeleteModal";
 import CreatePresentationModal from "./Modals/CreatePresentationModal";
+import PresentationCard from "./Cards/PresentationCard";
 
 export default function Presentations({ db }) {
   const [presentations, setPresentations] = useState([]);
@@ -79,36 +77,12 @@ export default function Presentations({ db }) {
         }}
       >
         {presentations.map((presentation, index) => (
-          <Box
-            key={index}
-            sx={{
-              position: "relative",
-              background: "slategray",
-              maxWidth: "200px",
-              border: "1px solid black",
-              borderRadius: "20px",
-              color: "white",
-              padding: "10px",
-              margin: "10px",
-              fontSize: "1.5rem",
-              textAlign: "center",
-            }}
-          >
-            <span>{presentation.title}</span>
-            <Link to={`presentation/${presentation.id}`}>
-              <IconButton
-                sx={{ position: "absolute", bottom: "-4px", right: "-30px" }}
-                aria-label="update"
-              >
-                <CreateRoundedIcon
-                  sx={{ height: "22px", width: "22px" }}
-                ></CreateRoundedIcon>
-              </IconButton>
-            </Link>
+          <Box key={index}>
             {/* TODO: Delete all sub collections !
              https://firebase.google.com/docs/firestore/manage-data/delete-data */}
-            <DeleteModal
-              onClickYes={() => {
+            <PresentationCard
+              presentation={presentation}
+              onClickYesDelete={() => {
                 deleteDocFromDb(presentation.id)
                   .then(() => {
                     setPresentations(
