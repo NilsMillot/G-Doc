@@ -1,6 +1,5 @@
 import { Box } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { collection, deleteDoc, doc, getDocs } from "firebase/firestore";
 import CreatePresentationModal from "./Modals/CreatePresentationModal";
 import PresentationCard from "./Cards/PresentationCard";
 import {
@@ -10,7 +9,6 @@ import {
   getDocs,
   setDoc,
 } from "firebase/firestore";
-import CreatePresentationModal from "./Modals/CreatePresentationModal";
 import { v4 as uuidv4 } from "uuid";
 
 export default function Presentations({ db }) {
