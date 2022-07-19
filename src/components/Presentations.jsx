@@ -1,10 +1,10 @@
 import { Box, IconButton } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import CreateRoundedIcon from "@mui/icons-material/CreateRounded";
-import DeleteIcon from "@mui/icons-material/Delete";
-import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { collection, deleteDoc, doc, getDocs } from "firebase/firestore";
 import { Link } from "react-router-dom";
+import DeleteModal from "./Modals/DeleteModal";
+import CreatePresentationModal from "./Modals/CreatePresentationModal";
 
 export default function Presentations({ db }) {
   const [presentations, setPresentations] = useState([]);
@@ -44,6 +44,16 @@ export default function Presentations({ db }) {
       presentations
     );
   }, [presentations]);
+
+  // Create presentation
+  const [newTitle, setNewTitle] = useState("");
+
+  function handleSubmitNewTitle() {
+    console.log(
+      "crééer une nouvelle présentation dans la bdd avec le titre :",
+      newTitle
+    );
+  }
 
   return (
     <Box
@@ -97,10 +107,8 @@ export default function Presentations({ db }) {
             </Link>
             {/* TODO: Delete all sub collections !
              https://firebase.google.com/docs/firestore/manage-data/delete-data */}
-            <IconButton
-              sx={{ position: "absolute", bottom: "25px", right: "-30px" }}
-              aria-label="delete"
-              onClick={() => {
+            <DeleteModal
+              onClickYes={() => {
                 deleteDocFromDb(presentation.id)
                   .then(() => {
                     setPresentations(
@@ -111,23 +119,14 @@ export default function Presentations({ db }) {
                     alert("Erreur lors de la suppression de la présentation");
                   });
               }}
-            >
-              <DeleteIcon sx={{ height: "22px", width: "22px" }}></DeleteIcon>
-            </IconButton>
+            />
           </Box>
         ))}
       </Box>
-      <IconButton
-        sx={{ width: "max-content", margin: "20px auto 0 auto" }}
-        aria-label="add"
-        onClick={() => {
-          console.log("doit ajouter une slide après celle ci: ");
-        }}
-      >
-        <AddCircleOutlineIcon
-          sx={{ height: "40px", width: "40px" }}
-        ></AddCircleOutlineIcon>
-      </IconButton>
+      <CreatePresentationModal
+        setNewTitle={setNewTitle}
+        onClickYes={handleSubmitNewTitle}
+      />
     </Box>
   );
 }
