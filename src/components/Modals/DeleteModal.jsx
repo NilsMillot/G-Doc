@@ -5,8 +5,6 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import { IconButton } from "@mui/material";
-import DeleteIcon from "@mui/icons-material/Delete";
 
 export default function DeleteModal({ onClickYes }) {
   const [open, setOpen] = React.useState(false);
@@ -21,13 +19,13 @@ export default function DeleteModal({ onClickYes }) {
 
   return (
     <div>
-      <IconButton
-        sx={{ position: "absolute", bottom: "25px", right: "-30px" }}
-        aria-label="delete"
+      <Button
+        sx={{ fontSize: "1.3rem" }}
+        size="small"
         onClick={handleClickOpen}
       >
-        <DeleteIcon sx={{ height: "22px", width: "22px" }}></DeleteIcon>
-      </IconButton>
+        Supprimer
+      </Button>
       <Dialog
         open={open}
         onClose={handleClose}
