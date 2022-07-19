@@ -9,12 +9,10 @@ export default function Reveal({ slides }) {
             <section
               id={slide.title.replace(/ /g, "")}
               key={index}
-              data-background-color={slide.background}
+              // data-background-color={slide.background}
             >
               <h1>{slide.title}</h1>
-              <div
-                dangerouslySetInnerHTML={{ __html: slide.description }}
-              ></div>
+              <div dangerouslySetInnerHTML={{ __html: slide.content }}></div>
             </section>
           ))}
         </section>

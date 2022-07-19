@@ -9,7 +9,7 @@ function App() {
     <Routes>
       <Route
         path="/presentation/:presentationId"
-        element={<ViewSlidePresentation slidesInDb={database} />}
+        element={<ViewSlidePresentation db={database} />}
       />
       <Route path="/" element={<Presentations db={database} />} />
       <Route

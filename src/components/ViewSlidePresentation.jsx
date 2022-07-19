@@ -4,50 +4,66 @@ import Reveal from "./Reveal";
 import Slider from "./Slider";
 import Rv from "./Rv";
 import ListButtons from "./ListButtons";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, doc, getDoc, getDocs } from "firebase/firestore";
+import { Link, useParams } from "react-router-dom";
 
-export default function ViewSlidePresentation({ slidesInDb }) {
+export default function ViewSlidePresentation({ db }) {
   const [reveal, setReveal] = useState(null);
   const [slides, setSlides] = useState([]);
+  const [titleOfPresentation, setTitleOfPresentation] = useState("");
+  let params = useParams();
 
-  const slideCollectionRef = collection(slidesInDb, "slides");
-
-  const getData = () => {
-    const docSnap = getDocs(slideCollectionRef);
-    docSnap.then((docs) => {
-      setSlides(docs.docs.map((doc) => doc.data()));
+  // Get the presentation title
+  const docRef = doc(db, "presentations", params.presentationId);
+  async function getDc() {
+    return await getDoc(docRef);
+  }
+  useEffect(() => {
+    getDc().then((pres) => {
+      setTitleOfPresentation(pres.data().title);
     });
-  };
+  }),
+    [];
+
+  // Get the slides
+  async function getSlides() {
+    const slidesSnapshot = await getDocs(
+      collection(db, `presentations/${params.presentationId}/slides`)
+    );
+    const slidesTitleList = slidesSnapshot.docs.map((doc) => doc.data());
+    const slidesIdList = slidesSnapshot.docs.map((doc) => doc.id);
+    const slidesList = slidesTitleList.map((presentation, index) => {
+      return {
+        ...presentation,
+        id: slidesIdList[index],
+      };
+    });
+    return slidesList;
+  }
 
   useEffect(() => {
+    getSlides().then((slides) => {
+      setSlides(slides);
+    });
     setReveal(new Rv());
-    getData();
   }, []);
-
-  // const slides = [
-  //   {
-  //     title: "Welcome to the First Slide",
-  //     description:
-  //       "<h2>This is the first slide.</h2><br><h3>This is a simple application that allows you to create a new user and to login to the application.</h3>",
-  //     // background:"aquamarine"
-  //   },
-  //   {
-  //     title: "Here is the second slide",
-  //     description: "<bold>This is the second slide.</bold>",
-  //     // background:"blue"
-  //   },
-  //   {
-  //     title: "Welcome to the Home Page",
-  //     description:
-  //       "<h2>This is the home page of the application.</h2><br><h3>This is a simple application that allows you to create a new user and to login to the application.</h3>",
-  //     // background:"purple"
-  //   },
-  // ];
 
   return (
     <>
-      <Box as="h1" sx={{ textAlign: "center", marginTop: "20px" }}>
-        Votre présentation
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          marginTop: "20px",
+        }}
+      >
+        <Box as="h1" sx={{ marginRight: "20px" }}>
+          {titleOfPresentation}
+        </Box>
+        <Link to="/">
+          <span style={{ fontSize: "2rem" }}>Retour sur vos présentations</span>
+        </Link>
       </Box>
       <Box
         sx={{

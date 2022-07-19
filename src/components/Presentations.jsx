@@ -3,72 +3,47 @@ import React, { useEffect, useState } from "react";
 import CreateRoundedIcon from "@mui/icons-material/CreateRounded";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, deleteDoc, doc, getDocs } from "firebase/firestore";
+import { Link } from "react-router-dom";
 
 export default function Presentations({ db }) {
+  const [presentations, setPresentations] = useState([]);
   const presentationsCollectionRef = collection(db, "presentations");
-  const presentations = [];
+
+  async function getPresentations() {
+    const presentationsSnapshot = await getDocs(presentationsCollectionRef);
+    const presentationsTitleList = presentationsSnapshot.docs.map((doc) =>
+      doc.data()
+    );
+    const presentationsIdList = presentationsSnapshot.docs.map((doc) => doc.id);
+    const presentationsList = presentationsTitleList.map(
+      (presentation, index) => {
+        return {
+          ...presentation,
+          id: presentationsIdList[index],
+        };
+      }
+    );
+    return presentationsList;
+  }
+
+  async function deleteDocFromDb(presentationId) {
+    await deleteDoc(doc(db, "presentations", presentationId));
+  }
 
   useEffect(() => {
-    getDocs(presentationsCollectionRef).then((presentation) => {
-      presentation.docs.map((doc) => {
-        // console.log(
-        //   "%cPresentations.jsx line:14 doc",
-        //   "color: #007acc;",
-        //   doc.data()
-        // );
-        presentations.push(doc.data());
-        console.log(
-          "%cPresentations.jsx line:21 presentations",
-          "color: #007acc;",
-          presentations
-        );
-      });
-      // console.log(
-      //   "%cPresentations.jsx line:22 presentation.docs",
-      //   "color: #007acc;",
-      //   presentation.docs.data()
-      // );
+    getPresentations().then((presentations) => {
+      setPresentations(presentations);
     });
   }, []);
-  console.log(
-    "%cPresentations.jsx line:29 presentations",
-    "color: #007acc;",
-    presentations
-  );
 
-  // const presentations = [
-  //   {
-  //     title: "Title of first presentation",
-  //     slides: [
-  //       {
-  //         title: "This is the title of First Slide",
-  //         description: "This is the description of First Slide",
-  //       },
-  //       {
-  //         title: "This is the title of 2nd Slide",
-  //         description: "This is the description of Scnd Slide",
-  //       },
-  //       {
-  //         title: "This is the title of 3rd Slide",
-  //         description: "desc 3rd Slide",
-  //       },
-  //     ],
-  //   },
-  //   {
-  //     title: "Title of 2nd presentation",
-  //     slides: [],
-  //   },
-  //   {
-  //     title: "Title of 3rd presentatio fezefzez ezfn",
-  //     slides: [
-  //       {
-  //         title: "1st Slide",
-  //         description: "This is the description of 2nde Slide",
-  //       },
-  //     ],
-  //   },
-  // ];
+  useEffect(() => {
+    console.log(
+      "%cPresentations.jsx line:38 presentations",
+      "color: #007acc;",
+      presentations
+    );
+  }, [presentations]);
 
   return (
     <Box
@@ -110,22 +85,31 @@ export default function Presentations({ db }) {
             }}
           >
             <span>{presentation.title}</span>
-            <IconButton
-              sx={{ position: "absolute", bottom: "-4px", right: "-30px" }}
-              aria-label="update"
-              onClick={() => {
-                console.log("doit editer cette slide: ");
-              }}
-            >
-              <CreateRoundedIcon
-                sx={{ height: "22px", width: "22px" }}
-              ></CreateRoundedIcon>
-            </IconButton>
+            <Link to={`presentation/${presentation.id}`}>
+              <IconButton
+                sx={{ position: "absolute", bottom: "-4px", right: "-30px" }}
+                aria-label="update"
+              >
+                <CreateRoundedIcon
+                  sx={{ height: "22px", width: "22px" }}
+                ></CreateRoundedIcon>
+              </IconButton>
+            </Link>
+            {/* TODO: Delete all sub collections !
+             https://firebase.google.com/docs/firestore/manage-data/delete-data */}
             <IconButton
               sx={{ position: "absolute", bottom: "25px", right: "-30px" }}
               aria-label="delete"
               onClick={() => {
-                console.log("doit supprimer cette slide: ");
+                deleteDocFromDb(presentation.id)
+                  .then(() => {
+                    setPresentations(
+                      presentations.filter((p) => p.id !== presentation.id)
+                    );
+                  })
+                  .catch(() => {
+                    alert("Erreur lors de la suppression de la présentation");
+                  });
               }}
             >
               <DeleteIcon sx={{ height: "22px", width: "22px" }}></DeleteIcon>
