@@ -3,6 +3,15 @@ import React, { useEffect, useState } from "react";
 import { collection, deleteDoc, doc, getDocs } from "firebase/firestore";
 import CreatePresentationModal from "./Modals/CreatePresentationModal";
 import PresentationCard from "./Cards/PresentationCard";
+import {
+  collection,
+  deleteDoc,
+  doc,
+  getDocs,
+  setDoc,
+} from "firebase/firestore";
+import CreatePresentationModal from "./Modals/CreatePresentationModal";
+import { v4 as uuidv4 } from "uuid";
 
 export default function Presentations({ db }) {
   const [presentations, setPresentations] = useState([]);
@@ -46,7 +55,17 @@ export default function Presentations({ db }) {
   // Create presentation
   const [newTitle, setNewTitle] = useState("");
 
+  async function createPresentation(title) {
+    await setDoc(doc(db, "presentations", uuidv4()), {
+      title: title,
+    });
+    console.log("hh");
+  }
+
   function handleSubmitNewTitle() {
+    createPresentation(newTitle).then(() => {
+      setPresentations([...presentations, { title: newTitle }]);
+    });
     console.log(
       "crééer une nouvelle présentation dans la bdd avec le titre :",
       newTitle
