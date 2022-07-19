@@ -3,6 +3,7 @@ import ViewSlidePresentation from "./components/ViewSlidePresentation";
 import Presentations from "./components/Presentations";
 import { database } from "./firebaseConfig";
 import EditSlide from "./components/EditSlide/EditSlide";
+import AddSlide from "./components/AddSlide/AddSlide";
 
 function App() {
   return (
@@ -15,6 +16,10 @@ function App() {
       <Route
         path="/edit-slide/:id"
         element={<EditSlide database={database} />}
+      />
+      <Route
+        path="/add-slide/:presentationId"
+        element={<AddSlide db={database} />}
       />
     </Routes>
   );

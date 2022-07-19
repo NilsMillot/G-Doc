@@ -88,7 +88,7 @@ export default function ViewSlidePresentation({ db }) {
           <Reveal slides={slides} />
         </Box>
 
-        <ListButtons reveal={reveal} />
+        <ListButtons reveal={reveal} id={params.presentationId} />
       </Box>
     </>
   );
