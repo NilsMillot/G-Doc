@@ -1,11 +1,6 @@
 import { Box } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import CreateRoundedIcon from "@mui/icons-material/CreateRounded";
-import { collection, deleteDoc, doc, getDocs, setDoc } from "firebase/firestore";
-import { Link } from "react-router-dom";
-import DeleteModal from "./Modals/DeleteModal";
 import CreatePresentationModal from "./Modals/CreatePresentationModal";
-import { v4 as uuidv4 } from 'uuid';
 import PresentationCard from "./Cards/PresentationCard";
 import {
   collection,
@@ -37,8 +32,6 @@ export default function Presentations({ db }) {
     return presentationsList;
   }
 
-
-
   async function deleteDocFromDb(presentationId) {
     await deleteDoc(doc(db, "presentations", presentationId));
   }
@@ -61,10 +54,10 @@ export default function Presentations({ db }) {
   const [newTitle, setNewTitle] = useState("");
 
   async function createPresentation(title) {
-    await setDoc(doc(db, "presentations",uuidv4()), {
+    await setDoc(doc(db, "presentations", uuidv4()), {
       title: title,
     });
-    console.log("hh")
+    console.log("hh");
   }
 
   function handleSubmitNewTitle() {
