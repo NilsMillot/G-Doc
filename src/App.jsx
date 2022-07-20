@@ -6,7 +6,6 @@ import Home from "./components/Home";
 import Login from "./components/auth/Login";
 import Register from "./components/auth/Register";
 import NotConnected from "./components/pages/not_connected";
-import { Routes, Route } from "react-router-dom";
 import ViewSlidePresentation from "./components/ViewSlidePresentation";
 import Presentations from "./components/Presentations";
 import { database } from "./firebaseConfig";
@@ -20,8 +19,10 @@ function App() {
   useEffect(() => {
     user?.email ? setConnected(true) : setConnected(false);
     console.log(user);
-    console.log("app.jsx")
   }, [user]);
+
+  console.log("app.jsx")
+
   if (connected) {
     return (
       <Routes>
@@ -30,6 +31,19 @@ function App() {
 
         <Route path="/home" element={<Home />} />
         <Route path="*" element={<div>Error 404</div>} />
+      <Route
+        path="/presentation/:presentationId"
+        element={<ViewSlidePresentation db={database} />}
+      />
+      <Route path="/presentation" element={<Presentations db={database} />} />
+      <Route
+        path="/edit-slide/:id"
+        element={<EditSlide database={database} />}
+      />
+      <Route
+        path="/add-slide/:presentationId"
+        element={<AddSlide db={database} />}
+      />
       </Routes>
     );
   } else {
@@ -42,23 +56,7 @@ function App() {
       </Routes>
     );
   }
-  return (
-    <Routes>
-      <Route
-        path="/presentation/:presentationId"
-        element={<ViewSlidePresentation db={database} />}
-      />
-      <Route path="/" element={<Presentations db={database} />} />
-      <Route
-        path="/edit-slide/:id"
-        element={<EditSlide database={database} />}
-      />
-      <Route
-        path="/add-slide/:presentationId"
-        element={<AddSlide db={database} />}
-      />
-    </Routes>
-  );
+  
 }
 
 export default App;

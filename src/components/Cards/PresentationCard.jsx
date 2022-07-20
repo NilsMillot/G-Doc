@@ -39,7 +39,7 @@ export default function PresentationCard({ presentation, onClickYesDelete }) {
         </Typography>
       </CardContent>
       <CardActions>
-        <Link to={`presentation/${presentation.id}`}>
+        <Link to={`./${presentation.id}`}>
           <Button sx={{ fontSize: "1.3rem" }} size="small">
             Voir
           </Button>

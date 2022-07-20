@@ -15,7 +15,7 @@ export default function Login() {
   const signIn = () => {
     signInWithEmailAndPassword(auth, email, password)
       .then((auth) => {
-        navigate("/home");
+        navigate("/presentation");
       })
       .catch((error) => {
         console.log(error);
