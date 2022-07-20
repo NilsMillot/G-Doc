@@ -1,7 +1,7 @@
 import { Box } from "@mui/material";
 import React from "react";
 
-export default function Slider({ slides, setCurrentSlide }) {
+export default function Slider({ slides }) {
   return (
     <Box
       sx={{
@@ -15,6 +15,8 @@ export default function Slider({ slides, setCurrentSlide }) {
     >
       {slides.map((slide, index) => (
         <Box
+          as="a"
+          href={`#/${slide.title.replace(/ /g, "")}`}
           key={index}
           sx={{
             display: "flex",
@@ -25,7 +27,6 @@ export default function Slider({ slides, setCurrentSlide }) {
             alignItems: "center",
             cursor: "pointer",
           }}
-          onClick={() => setCurrentSlide(slide)}
         >
           <h2>{slide.title}</h2>
         </Box>
