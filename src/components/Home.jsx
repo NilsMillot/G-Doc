@@ -76,7 +76,7 @@ export default function Home() {
     return (
       <>
         <Box as="h1" sx={{ textAlign: "center", marginTop: "20px" }}>
-          NO ACCOUNT
+          NO ACCOUNT PLEASE  <a href="./">SIGN IN</a> OR <a href="./register">REGISTER</a>
         </Box>
       </>
     );
