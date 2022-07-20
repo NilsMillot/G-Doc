@@ -7,8 +7,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 
 export default function Home() {
   const navigate = useNavigate();
-  const [user, loading, error] = useAuthState(auth);
-  const [connected, setConnected] = useState(false);
+  const [user] = useAuthState(auth);
   const signOut = () => {
     console.log(auth);
     auth.signOut().then(() => {
@@ -33,52 +32,37 @@ export default function Home() {
   ];
 
   const [currentSlide, setCurrentSlide] = useState(slides[0]);
+ 
 
-  useEffect(() => {
-    user?.email ? setConnected(true) : setConnected(false);
-  }, [user]);
-
-  console.log(user);
-
-  if (connected) {
-    return (
-      <>
-        <Box as="h1" sx={{ textAlign: "center", marginTop: "20px" }}>
-          Votre présentation
-          <Button variant="contained" onClick={signOut}>
-            SIGN OUT {user?.email ? user?.email : "null"}
-          </Button>
-        </Box>
+  return (
+    <>
+      <Box as="h1" sx={{ textAlign: "center", marginTop: "20px" }}>
+        Votre présentation
+        <Button variant="contained" onClick={signOut}>
+          SIGN OUT {user?.email ? user?.email : "null"}
+        </Button>
+      </Box>
+      <Box
+        sx={{
+          background: "lightgray",
+          display: "flex",
+          width: "90vw",
+          height: "80vh",
+          margin: "20px auto 0 auto",
+        }}
+      >
+        <Slider slides={slides} setCurrentSlide={setCurrentSlide} />
         <Box
+          id="contentOfSlide"
           sx={{
-            background: "lightgray",
-            display: "flex",
-            width: "90vw",
-            height: "80vh",
-            margin: "20px auto 0 auto",
+            border: "1px solid black",
+            padding: "20px",
+            width: "100%",
           }}
         >
-          <Slider slides={slides} setCurrentSlide={setCurrentSlide} />
-          <Box
-            id="contentOfSlide"
-            sx={{
-              border: "1px solid black",
-              padding: "20px",
-              width: "100%",
-            }}
-          >
-            {currentSlide.description}
-          </Box>
+          {currentSlide.description}
         </Box>
-      </>
-    );
-  } else {
-    return (
-      <>
-        <Box as="h1" sx={{ textAlign: "center", marginTop: "20px" }}>
-          NO ACCOUNT PLEASE  <a href="./">SIGN IN</a> OR <a href="./register">REGISTER</a>
-        </Box>
-      </>
-    );
-  }
+      </Box>
+    </>
+  );
 }
