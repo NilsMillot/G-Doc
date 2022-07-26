@@ -14,7 +14,7 @@ export default function ListButtons({ reveal, id, slides, db, removeSlide }) {
   const navigate = useNavigate();
   function handleClickEdit(currentSlide) {
     const idCurrentSlide = currentSlide.getAttribute("data-id");
-    navigate(`/edit-slide/${idCurrentSlide}`);
+    navigate(`/presentation/${id}/edit-slide/${idCurrentSlide}`);
   }
 
   return (
