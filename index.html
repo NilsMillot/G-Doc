@@ -1,15 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/src/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite App</title>
-    <link rel="stylesheet" href="/node_modules/reveal.js/dist/reveal.css">
-  <link rel="stylesheet" href="/node_modules/reveal.js/dist/theme/white.css">
-  </head>
-  <body>
+    <head>
+        <meta charset="UTF-8"/>
+        <link rel="icon" type="image/svg+xml" href="/src/favicon.svg"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <title>Vite App</title>
+        <link rel="stylesheet" href="/node_modules/reveal.js/dist/reveal.css">
+        <link rel="stylesheet" href="/node_modules/reveal.js/dist/theme/white.css">
+        <style>:root
+        {
+            --app-bg-color: rgb(98, 255, 7);
+        }
+        #cercle {
+            width: 20px;
+            height: 20px;
+            border-radius: 20px;
+            /* placer en haut a droite */
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background-color: var(--app-bg-color);
+        }
+    </style>
+</head>
+<body>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
-  </body>
-</html>
+</body></html>
