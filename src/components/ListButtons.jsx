@@ -3,23 +3,18 @@ import React from "react";
 import CreateRoundedIcon from "@mui/icons-material/CreateRounded";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-import { Link, useParams } from "react-router-dom";
-import { deleteDoc, doc, getDoc } from "firebase/firestore";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function ListButtons({ reveal, id, slides, db, removeSlide }) {
-  // function handleSubmitNewSlide() {
-  //   createPresentation(newTitle).then(() => {
-  //     setPresentations([...presentations, { title: newTitle }]);
-  //   });
-  //   console.log(
-  //     "crééer une nouvelle présentation dans la bdd avec le titre :",
-  //     newTitle
-  //   );
-  // }
-
   function handleClickDelete(currentSlide) {
     const idCurrentSlide = currentSlide.getAttribute("data-id");
     removeSlide(idCurrentSlide);
+  }
+
+  const navigate = useNavigate();
+  function handleClickEdit(currentSlide) {
+    const idCurrentSlide = currentSlide.getAttribute("data-id");
+    navigate(`/edit-slide/${idCurrentSlide}`);
   }
 
   return (
@@ -29,7 +24,7 @@ export default function ListButtons({ reveal, id, slides, db, removeSlide }) {
         aria-label="update"
         size="large"
         onClick={() => {
-          console.log("doit editer cette slide: ", reveal.getCurrentSlide());
+          handleClickEdit(reveal.getCurrentSlide());
         }}
       >
         <CreateRoundedIcon

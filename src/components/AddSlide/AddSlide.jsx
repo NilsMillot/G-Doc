@@ -80,7 +80,7 @@ export default function AddSlide({ db }) {
                 </Alert>
             </Snackbar>
             <h1>Titre de la slide:</h1>
-            <input disabled={disableCreateButton} onChange={getTilteSlide} value={titleSlide} type='text' name="title" style={{"margin-bottom": "20px"}}></input>
+            <input disabled={disableCreateButton} onChange={getTilteSlide} value={titleSlide} type='text' name="title" style={{"marginBottom": "20px"}}></input>
             <div className='quill-section'>
                 <ReactQuill
                     className='react-quill'
