@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-import { updateDoc, collection, doc, onSnapshot } from 'firebase/firestore';
+import { updateDoc, collection, doc, onSnapshot, getDoc } from 'firebase/firestore';
 import './EditSlide.css';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
@@ -36,16 +36,16 @@ export default function EditSlide({database}) {
         return () => clearTimeout(updateSlide)
     }, [description])
 
+    const docRef1 = doc(database, `presentations/${params.idPresentation}/slides`, params.id);
+    async function getSlide () {
+        return await getDoc(docRef1);
+    }
     const getData = () => {
-        const slideRef = doc(slideCollectionRef, params.id)
-        
-        // const slidesSnapshot = await getDocs(
-        //     collection(db, `presentations/${params.idPresentation}/slides`)
-        //   );
-        onSnapshot(slideRef, (slide) => {
-            setTitle(slide.data().title)
-            setDescription(slide.data().description);
-        })
+        getSlide().then((doc) => {
+            setTitle(doc.data().title);
+            setDescription(doc.data().description);
+            console.log('%cEditSlide.jsx line:47 doc.data()', 'color: #007acc;', doc.data());
+        });
     }
 
     useEffect(() => {
