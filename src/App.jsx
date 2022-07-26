@@ -17,11 +17,11 @@ function App() {
   const [user, loading, error] = useAuthState(auth);
 
   useEffect(() => {
-    user?.email ? setConnected(true) : setConnected(false);
-    console.log(user);
+    if (!connected) {
+      user?.email ? setConnected(true) : setConnected(false);
+      console.log(user);
+    }
   }, [user]);
-
-  console.log("app.jsx")
 
   if (connected) {
     return (
@@ -31,19 +31,19 @@ function App() {
 
         <Route path="/home" element={<Home />} />
         <Route path="*" element={<div>Error 404</div>} />
-      <Route
-        path="/presentation/:presentationId"
-        element={<ViewSlidePresentation db={database} />}
-      />
-      <Route path="/presentation" element={<Presentations db={database} />} />
-      <Route
-        path="/edit-slide/:id"
-        element={<EditSlide database={database} />}
-      />
-      <Route
-        path="/add-slide/:presentationId"
-        element={<AddSlide db={database} />}
-      />
+        <Route
+          path="/presentation/:presentationId"
+          element={<ViewSlidePresentation db={database} />}
+        />
+        <Route path="/presentation" element={<Presentations db={database} />} />
+        <Route
+          path="/edit-slide/:id"
+          element={<EditSlide database={database} />}
+        />
+        <Route
+          path="/add-slide/:presentationId"
+          element={<AddSlide db={database} />}
+        />
       </Routes>
     );
   } else {
@@ -56,7 +56,6 @@ function App() {
       </Routes>
     );
   }
-  
 }
 
 export default App;
