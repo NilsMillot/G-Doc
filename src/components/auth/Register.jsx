@@ -62,7 +62,7 @@ export default function Login() {
                 <div style={{ paddingTop: "80px" }}>
                   <input
                     type="text"
-                    placeholder="user name"
+                    placeholder="Email"
                     className="name"
                     id="outlined-basic"
                     label="Email"
@@ -73,7 +73,7 @@ export default function Login() {
                 <div className="second-input">
                   <input
                     type="password"
-                    placeholder="user name"
+                    placeholder="Password"
                     className="name"
                     id="outlined-basic"
                     label="Password"
