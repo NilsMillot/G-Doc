@@ -61,7 +61,7 @@ export default function ViewSlidePresentation({ db }) {
         <Box as="h1" sx={{ marginRight: "20px" }}>
           {titleOfPresentation}
         </Box>
-        <Link to="/">
+        <Link to="/presentation">
           <span style={{ fontSize: "2rem" }}>Retour sur vos présentations</span>
         </Link>
       </Box>

@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import CreatePresentationModal from "./Modals/CreatePresentationModal";
 import PresentationCard from "./Cards/PresentationCard";
@@ -10,11 +10,16 @@ import {
   setDoc,
 } from "firebase/firestore";
 import { v4 as uuidv4 } from "uuid";
+import { signOut } from "firebase/auth";
+import { auth } from "../firebaseConfig";
+import { useNavigate } from "react-router-dom";
+
 
 export default function Presentations({ db }) {
   const [presentations, setPresentations] = useState([]);
   const presentationsCollectionRef = collection(db, "presentations");
-
+  let navigate = useNavigate();
+  
   async function getPresentations() {
     const presentationsSnapshot = await getDocs(presentationsCollectionRef);
     const presentationsTitleList = presentationsSnapshot.docs.map((doc) =>
@@ -71,53 +76,60 @@ export default function Presentations({ db }) {
   }
 
   return (
-    <Box
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        height: "100vh",
-        justifyContent: "center",
-      }}
-    >
-      <Box as="h1" sx={{ textAlign: "center", marginTop: "20px" }}>
-        Vos présentations
+    <>
+      <Box sx={{ margin: "20px", width: "fit-content" }}>
+        <Button variant="outlined" color="error" size="large" onClick={()=> signOut(auth).then(navigate(-1))}>
+          Log out
+        </Button>
       </Box>
-
       <Box
         sx={{
           display: "flex",
-          width: "100%",
-          maxWidth: "70vw",
-          margin: "20px auto 0 auto",
-          justifyContent: "space-evenly",
-          flexWrap: "wrap",
+          flexDirection: "column",
+          height: "100vh",
+          justifyContent: "center",
         }}
       >
-        {presentations.map((presentation, index) => (
-          <Box key={index}>
-            {/* TODO: Delete all sub collections !
+        <Box as="h1" sx={{ textAlign: "center", marginTop: "20px" }}>
+          Vos présentations
+        </Box>
+
+        <Box
+          sx={{
+            display: "flex",
+            width: "100%",
+            maxWidth: "70vw",
+            margin: "20px auto 0 auto",
+            justifyContent: "space-evenly",
+            flexWrap: "wrap",
+          }}
+        >
+          {presentations.map((presentation, index) => (
+            <Box key={index}>
+              {/* TODO: Delete all sub collections !
              https://firebase.google.com/docs/firestore/manage-data/delete-data */}
-            <PresentationCard
-              presentation={presentation}
-              onClickYesDelete={() => {
-                deleteDocFromDb(presentation.id)
-                  .then(() => {
-                    setPresentations(
-                      presentations.filter((p) => p.id !== presentation.id)
-                    );
-                  })
-                  .catch(() => {
-                    alert("Erreur lors de la suppression de la présentation");
-                  });
-              }}
-            />
-          </Box>
-        ))}
+              <PresentationCard
+                presentation={presentation}
+                onClickYesDelete={() => {
+                  deleteDocFromDb(presentation.id)
+                    .then(() => {
+                      setPresentations(
+                        presentations.filter((p) => p.id !== presentation.id)
+                      );
+                    })
+                    .catch(() => {
+                      alert("Erreur lors de la suppression de la présentation");
+                    });
+                }}
+              />
+            </Box>
+          ))}
+        </Box>
+        <CreatePresentationModal
+          setNewTitle={setNewTitle}
+          onClickYes={handleSubmitNewTitle}
+        />
       </Box>
-      <CreatePresentationModal
-        setNewTitle={setNewTitle}
-        onClickYes={handleSubmitNewTitle}
-      />
-    </Box>
+    </>
   );
 }
