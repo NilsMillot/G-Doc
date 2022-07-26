@@ -86,11 +86,11 @@ export default function Presentations({ db }) {
         sx={{
           display: "flex",
           flexDirection: "column",
-          height: "100vh",
+          height: "90vh",
           justifyContent: "center",
         }}
       >
-        <Box as="h1" sx={{ textAlign: "center", marginTop: "20px" }}>
+        <Box as="h1" sx={{ textAlign: "center", marginTop: "10px" }}>
           Vos présentations
         </Box>
 
@@ -98,7 +98,7 @@ export default function Presentations({ db }) {
           sx={{
             display: "flex",
             width: "100%",
-            maxWidth: "70vw",
+            //maxWidth: "70vw",
             margin: "20px auto 0 auto",
             justifyContent: "space-evenly",
             flexWrap: "wrap",

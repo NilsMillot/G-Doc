@@ -1,11 +1,12 @@
-import { Box, TextField, Button } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import { Box, TextField, Button, Paper } from "@mui/material";
+import React, { useState } from "react";
 import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
 } from "firebase/auth";
 import { auth } from "../../firebaseConfig";
 import { useNavigate } from "react-router-dom";
+import "./LoginUi.scss";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -33,44 +34,71 @@ export default function Login() {
   };
 
   return (
-    <>
-      <Box as="h1" sx={{ textAlign: "center", marginTop: "20px" }}>
-        Votre présentation
-      </Box>
+    <Box
+      sx={{
+        textAlign: "center",
+        //width: "90vw",
+        height: "100vh",
+        //margin: "20px auto 0 auto",
+        overflow: "hidden",
+        backgroundImage: `url(https://firebasestorage.googleapis.com/v0/b/pwa-gr6.appspot.com/o/esgi-2.jpeg?alt=media&token=9d0e1823-ddd0-4abb-b783-943bc3a1da8e)`,
+        backgroundRepeat: "no-repeat",
+      }}
+    >
       <Box
         sx={{
           textAlign: "center",
-          background: "lightgray",
+          //backgroundColor: "rgba(100, 100, 100, .6)",
           width: "90vw",
-          height: "80vh",
-          margin: "20px auto 0 auto",
+          height: "70vh",
+          margin: "100px auto 0 auto",
         }}
       >
-        <h1>Register</h1>
-        <TextField
-          id="outlined-basic"
-          label="Email"
-          variant="outlined"
-          onChange={(event) => setEmail(event.target.value)}
-        />
-        <TextField
-          id="outlined-basic"
-          label="Password"
-          variant="outlined"
-          onChange={(event) => setPassword(event.target.value)}
-        />
+        <Box sx={{ alignItems: "center" }}>
+          <div className="main">
+            <div className="sub-main">
+              <div>
+                <h1 style={{ paddingTop: "5px" }}>Register</h1>
+                <div style={{ paddingTop: "80px" }}>
+                  <input
+                    type="text"
+                    placeholder="user name"
+                    className="name"
+                    id="outlined-basic"
+                    label="Email"
+                    variant="outlined"
+                    onChange={(event) => setEmail(event.target.value)}
+                  />
+                </div>
+                <div className="second-input">
+                  <input
+                    type="password"
+                    placeholder="user name"
+                    className="name"
+                    id="outlined-basic"
+                    label="Password"
+                    variant="outlined"
+                    onChange={(event) => setPassword(event.target.value)}
+                  />
+                </div>
+                <div className="login-button">
+                  <button onClick={register}>Register</button>
+                </div>
 
-        <Button variant="contained" onClick={register}>
-          Register
-        </Button>
-        <Button
-          onClick={() => {
-            navigate("/");
-          }}
-        >
-          Already an account?
-        </Button>
+                <p className="link">
+                  <a
+                    onClick={() => {
+                      navigate("/");
+                    }}
+                  >
+                    Déjà inscrit ?
+                  </a>
+                </p>
+              </div>
+            </div>
+          </div>
+        </Box>
       </Box>
-    </>
+    </Box>
   );
 }
