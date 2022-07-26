@@ -37,7 +37,7 @@ function App() {
         />
         <Route path="/presentation" element={<Presentations db={database} />} />
         <Route
-          path="/edit-slide/:id"
+          path="/edit-slide/:idPresentation/:id"
           element={<EditSlide database={database} />}
         />
         <Route

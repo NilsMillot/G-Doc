@@ -9,8 +9,8 @@ import MuiAlert from '@mui/material/Alert';
 
 export default function EditSlide({database}) {
     const isMounted = useRef()
-    const slideCollectionRef = collection(database, 'slides')
     let params = useParams();
+    const slideCollectionRef = collection(database, `presentations/${params.idPresentation}/slides`);
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const getQuillData = (value) => {
@@ -38,6 +38,10 @@ export default function EditSlide({database}) {
 
     const getData = () => {
         const slideRef = doc(slideCollectionRef, params.id)
+        
+        // const slidesSnapshot = await getDocs(
+        //     collection(db, `presentations/${params.idPresentation}/slides`)
+        //   );
         onSnapshot(slideRef, (slide) => {
             setTitle(slide.data().title)
             setDescription(slide.data().description);
