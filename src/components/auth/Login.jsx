@@ -69,7 +69,7 @@ export default function Login() {
                   />
                 </div>
                 <div className="login-button">
-                  <button onClick={signIn}>Login</button>
+                  <button class="button-auth" onClick={signIn}>Login</button>
                 </div>
 
                 <p className="link">
