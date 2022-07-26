@@ -78,7 +78,7 @@ export default function Presentations({ db }) {
   return (
     <>
       <Box sx={{ margin: "20px", width: "fit-content" }}>
-        <Button variant="outlined" color="error" size="large" onClick={()=> signOut(auth).then(navigate(-1))}>
+        <Button variant="outlined" color="error" size="large" onClick={()=> signOut(auth).then(navigate("/"))}>
           Log out
         </Button>
       </Box>
