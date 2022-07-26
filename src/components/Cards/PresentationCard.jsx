@@ -19,7 +19,7 @@ const bull = (
 
 export default function PresentationCard({ presentation, onClickYesDelete }) {
   return (
-    <Card sx={{ minWidth: 275 }}>
+    <Card sx={{ minWidth: 275, maxWidth: 320, marginY: 1 }}>
       <CardContent>
         <Typography
           sx={{ fontSize: "2rem" }}
