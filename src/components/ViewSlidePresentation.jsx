@@ -80,6 +80,7 @@ export default function ViewSlidePresentation({ db }) {
           <span style={{ fontSize: "2rem" }}>Retour sur vos présentations</span>
         </Link>
       </Box>
+      <Box id="cercle"></Box>
       <Box
         sx={{
           background: "lightgray",

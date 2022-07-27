@@ -11,6 +11,11 @@ import Presentations from "./components/Presentations";
 import { database } from "./firebaseConfig";
 import EditSlide from "./components/EditSlide/EditSlide";
 import AddSlide from "./components/AddSlide/AddSlide";
+import checkConnectivity from "network-latency";
+import { DBConfig } from "./DBConfig";
+import { initDB } from "react-indexed-db";
+
+initDB(DBConfig);
 
 function App() {
   const [user, loading, error] = useAuthState(auth);
@@ -24,6 +29,20 @@ function App() {
     }
     if(user?.email) setConnected(true);
   }, [user, loading]);
+
+  let NETWORK_STATE = true;
+
+  document.addEventListener("connection-changed", ({ detail: state }) => {
+    NETWORK_STATE = state;
+    if (NETWORK_STATE) {
+      document.documentElement.style.setProperty(
+        "--app-bg-color",
+        "rgb(98, 255, 7)"
+      );
+    } else {
+      document.documentElement.style.setProperty("--app-bg-color", "grey");
+    }
+  });
 
   if (connected) {
     return (

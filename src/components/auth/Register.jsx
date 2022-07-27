@@ -45,6 +45,7 @@ export default function Login() {
         backgroundRepeat: "no-repeat",
       }}
     >
+      <Box id="cercle"></Box>
       <Box
         sx={{
           textAlign: "center",
@@ -82,7 +83,9 @@ export default function Login() {
                   />
                 </div>
                 <div className="login-button">
-                  <button class="button-auth" onClick={register}>Register</button>
+                  <button class="button-auth" onClick={register}>
+                    Register
+                  </button>
                 </div>
 
                 <p className="link">
