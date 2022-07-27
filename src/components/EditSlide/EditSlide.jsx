@@ -11,6 +11,7 @@ import Breadcrumbs from '@mui/material/Breadcrumbs';
 import Link from '@mui/material/Link';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useNavigate } from "react-router-dom";
+import { Box } from "@mui/material";
 
 export default function EditSlide({database}) {
     const isMounted = useRef()
@@ -56,28 +57,19 @@ export default function EditSlide({database}) {
         });
     }
 
-    useEffect(() => {
-        if (isMounted.current) {
-            return
-        }
+    isMounted.current = true;
+    getData();
+  }, []);
 
-        isMounted.current = true;
-        getData()
-    }, [])
+  const [showNotif, setShowNotif] = React.useState(false);
+  const Alert = React.forwardRef(function Alert(props, ref) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+  });
 
-    const [showNotif, setShowNotif] = React.useState(false);
-    const Alert = React.forwardRef(function Alert(props, ref) {
-        return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-    });
-
-    const handleClose = (event, reason) => {
-    if (reason === 'clickaway') {
-        return;
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
     }
-    
-        setShowNotif(false);
-      };
-    
 
     return (
         <div className='container'>
@@ -87,6 +79,7 @@ export default function EditSlide({database}) {
                     Retourner à la présentation
                 </Link>
             </Breadcrumbs>
+             <Box id="cercle"></Box>
             <Snackbar open={showNotif} autoHideDuration={2000}>
                 <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
                     Slide sauvegardé !

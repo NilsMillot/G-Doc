@@ -14,12 +14,11 @@ import { signOut } from "firebase/auth";
 import { auth } from "../firebaseConfig";
 import { useNavigate } from "react-router-dom";
 
-
 export default function Presentations({ db }) {
   const [presentations, setPresentations] = useState([]);
   const presentationsCollectionRef = collection(db, "presentations");
   let navigate = useNavigate();
-  
+
   async function getPresentations() {
     const presentationsSnapshot = await getDocs(presentationsCollectionRef);
     const presentationsTitleList = presentationsSnapshot.docs.map((doc) =>
@@ -78,10 +77,16 @@ export default function Presentations({ db }) {
   return (
     <>
       <Box sx={{ margin: "20px", width: "fit-content" }}>
-        <Button variant="outlined" color="error" size="large" onClick={()=> signOut(auth).then(navigate("/"))}>
+        <Button
+          variant="outlined"
+          color="error"
+          size="large"
+          onClick={() => signOut(auth).then(navigate("/"))}
+        >
           Log out
         </Button>
       </Box>
+      <Box id="cercle"></Box>
       <Box
         sx={{
           display: "flex",
