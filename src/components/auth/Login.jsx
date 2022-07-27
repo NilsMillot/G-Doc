@@ -1,6 +1,10 @@
 import { Box } from "@mui/material";
 import React, { useState } from "react";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import {
+  signInWithEmailAndPassword,
+  GoogleAuthProvider,
+  signInWithPopup,
+} from "firebase/auth";
 import { auth } from "../../firebaseConfig";
 import { useNavigate } from "react-router-dom";
 import "./LoginUi.scss";
@@ -13,6 +17,17 @@ export default function Login() {
   const signIn = () => {
     signInWithEmailAndPassword(auth, email, password)
       .then((auth) => {
+        navigate("/presentation");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const signInWithGoogle = () => {
+    const provider = new GoogleAuthProvider();
+    signInWithPopup(auth, provider)
+      .then((result) => {
         navigate("/presentation");
       })
       .catch((error) => {
@@ -72,6 +87,11 @@ export default function Login() {
                 <div className="login-button">
                   <button class="button-auth" onClick={signIn}>
                     Login
+                  </button>
+                </div>
+                <div className="" style={{ paddingBottom: "15px" }}>
+                  <button class="button-auth" onClick={signInWithGoogle}>
+                    Login with Google
                   </button>
                 </div>
 
