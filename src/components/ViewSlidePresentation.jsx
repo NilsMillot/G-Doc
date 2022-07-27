@@ -4,7 +4,13 @@ import Reveal from "./Reveal";
 import Slider from "./Slider";
 import Rv from "./Rv";
 import ListButtons from "./ListButtons";
-import { collection, doc, getDoc, getDocs } from "firebase/firestore";
+import {
+  collection,
+  deleteDoc,
+  doc,
+  getDoc,
+  getDocs,
+} from "firebase/firestore";
 import { Link, useParams } from "react-router-dom";
 
 export default function ViewSlidePresentation({ db }) {
@@ -48,6 +54,15 @@ export default function ViewSlidePresentation({ db }) {
     setReveal(new Rv());
   }, []);
 
+  async function removeSlide(id) {
+    await deleteDoc(
+      doc(db, `presentations/${params.presentationId}/slides`, id)
+    );
+    getSlides().then((slides) => {
+      setSlides(slides);
+    });
+  }
+
   return (
     <>
       <Box
@@ -88,7 +103,13 @@ export default function ViewSlidePresentation({ db }) {
           <Reveal slides={slides} />
         </Box>
 
-        <ListButtons reveal={reveal} id={params.presentationId} />
+        <ListButtons
+          reveal={reveal}
+          id={params.presentationId}
+          // slides={slides}
+          removeSlide={removeSlide}
+          db={db}
+        />
       </Box>
     </>
   );

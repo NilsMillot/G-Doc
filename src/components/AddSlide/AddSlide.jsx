@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { Box, IconButton } from "@mui/material";
+import { Box, Button, IconButton } from "@mui/material";
 import { collection, doc, getDoc, getDocs,setDoc, addDoc } from "firebase/firestore";
 import { Link, useParams } from "react-router-dom";
 import ReactQuill from 'react-quill';
@@ -10,8 +10,9 @@ import MuiAlert from '@mui/material/Alert';
 export default function AddSlide({ db }) {
     const [titleOfPresentation, setTitleOfPresentation] = useState("");
     const isMounted = useRef()
-    const [titleSlide, setTitleSlide] = useState('');
+    const [titleSlide, setTitleSlide] = useState('Nouvelle slide');
     const [description, setDescription] = useState('');
+    const [disableCreateButton, setDisableCreateButton] = useState(false);
 
     let params = useParams();
 
@@ -22,7 +23,7 @@ export default function AddSlide({ db }) {
         setTitleSlide(e.target.value)
     }
     const PresentationCollectionRef = collection(db,"presentations")
-    const IdPresentationCollectionRef = doc(PresentationCollectionRef,params.presentationId)
+    const IdPresentationCollectionRef = doc(PresentationCollectionRef, params.presentationId)
 
     const docRef = doc(db, "presentations", params.presentationId);
     async function getDc() {
@@ -44,7 +45,7 @@ export default function AddSlide({ db }) {
       }
       function handleSubmitNewSlide() {
         createSlide(titleSlide,description).then(() => {
-          
+          setDisableCreateButton(true);
         });
       }
 
@@ -63,20 +64,23 @@ export default function AddSlide({ db }) {
       
     return (
         <>
-            <Box as="h1" sx={{ textAlign: "center", marginTop: "20px" }}>
-            Ajouter une slide à {titleOfPresentation}
-            <button  
-        onClick={handleSubmitNewSlide}
-          >Creer</button>
-        </Box>  
-  
+            <Box as="h1" sx={{ textAlign: "center", marginTop: "20px" , display: "flex", flexDirection: "column"}}>
+              Ajouter une slide à {titleOfPresentation}
+              <Box>
+                <Button variant="contained" color="primary" disabled={disableCreateButton} onClick={handleSubmitNewSlide} sx={{ marginRight: "15px" }}>Creer</Button>
+                <Button variant="contained" color="primary" component={Link} to={`/presentation/${params.presentationId}`}>
+                  Retour
+                </Button>
+              </Box>
+            </Box>  
         <div className='container'>
             <Snackbar open={showNotif} autoHideDuration={2000}>
                 <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
                     Slide sauvegardé !
                 </Alert>
             </Snackbar>
-            <input onChange={getTilteSlide} value={titleSlide} type='text' name="title"></input>
+            <h1>Titre de la slide:</h1>
+            <input disabled={disableCreateButton} onChange={getTilteSlide} value={titleSlide} type='text' name="title" style={{"marginBottom": "20px"}}></input>
             <div className='quill-section'>
                 <ReactQuill
                     className='react-quill'

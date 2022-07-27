@@ -3,18 +3,18 @@ import React from "react";
 import CreateRoundedIcon from "@mui/icons-material/CreateRounded";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
-export default function ListButtons({ reveal, id }) {
+export default function ListButtons({ reveal, id, slides, db, removeSlide }) {
+  function handleClickDelete(currentSlide) {
+    const idCurrentSlide = currentSlide.getAttribute("data-id");
+    removeSlide(idCurrentSlide);
+  }
 
-  function handleSubmitNewSlide() {
-    createPresentation(newTitle).then(() => {
-      setPresentations([...presentations, { title: newTitle }]);
-    });
-    console.log(
-      "crééer une nouvelle présentation dans la bdd avec le titre :",
-      newTitle
-    );
+  const navigate = useNavigate();
+  function handleClickEdit(currentSlide) {
+    const idCurrentSlide = currentSlide.getAttribute("data-id");
+    navigate(`/presentation/${id}/edit-slide/${idCurrentSlide}`);
   }
 
   return (
@@ -24,7 +24,7 @@ export default function ListButtons({ reveal, id }) {
         aria-label="update"
         size="large"
         onClick={() => {
-          console.log("doit editer cette slide: ", reveal.getCurrentSlide());
+          handleClickEdit(reveal.getCurrentSlide());
         }}
       >
         <CreateRoundedIcon
@@ -35,9 +35,7 @@ export default function ListButtons({ reveal, id }) {
         sx={{ position: "absolute", bottom: "170px", right: "13px" }}
         aria-label="delete"
         size="large"
-        onClick={() => {
-          console.log("doit supprimer cette slide: ", reveal.getCurrentSlide());
-        }}
+        onClick={() => handleClickDelete(reveal.getCurrentSlide())}
       >
         <DeleteIcon sx={{ height: "40px", width: "40px" }}></DeleteIcon>
       </IconButton>
@@ -53,10 +51,10 @@ export default function ListButtons({ reveal, id }) {
             );
           }}
         >
-        <AddCircleOutlineIcon
-          sx={{ height: "40px", width: "40px" }}
-        ></AddCircleOutlineIcon>
-      </IconButton>
+          <AddCircleOutlineIcon
+            sx={{ height: "40px", width: "40px" }}
+          ></AddCircleOutlineIcon>
+        </IconButton>
       </Link>
     </>
   );

@@ -20,3 +20,17 @@
     padding: 20px;
     height: 750px;
 }
+
+.breadcrumbs {
+    margin-right: auto !important;
+}
+
+.link-back {
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.link-back-icon {
+    margin-right: 8px;
+    vertical-align: text-top;
+}

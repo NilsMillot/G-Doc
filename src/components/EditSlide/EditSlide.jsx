@@ -2,25 +2,31 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-import { updateDoc, collection, doc, onSnapshot } from 'firebase/firestore';
+import { updateDoc, collection, doc, onSnapshot, getDoc } from 'firebase/firestore';
 import './EditSlide.css';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
+import Typography from '@mui/material/Typography';
+import Breadcrumbs from '@mui/material/Breadcrumbs';
+import Link from '@mui/material/Link';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { useNavigate } from "react-router-dom";
 
 export default function EditSlide({database}) {
     const isMounted = useRef()
-    const slideCollectionRef = collection(database, 'slides')
     let params = useParams();
+    const slideCollectionRef = collection(database, `presentations/${params.idPresentation}/slides`);
     const [title, setTitle] = useState('');
-    const [description, setDescription] = useState('');
+    const [content, setContent] = useState('');
+    const navigate = useNavigate();
     const getQuillData = (value) => {
-        setDescription(value)
+        setContent(value)
     }
     useEffect(() => {
         const updateSlide = setTimeout(() => {
-            const slide = doc(slideCollectionRef, params.id)
+            const slide = doc(database, `presentations/${params.idPresentation}/slides`, params.id)
             updateDoc(slide, {
-                description: description
+                content: content
             })
             .then(() => {
                 setShowNotif(true);
@@ -34,14 +40,20 @@ export default function EditSlide({database}) {
             })
         }, 1000)
         return () => clearTimeout(updateSlide)
-    }, [description])
+    }, [content])
 
+    async function getSlide () {
+        const docRef1 = doc(database, `presentations/${params.idPresentation}/slides`, params.id);
+        return await getDoc(docRef1);
+    }
     const getData = () => {
-        const slideRef = doc(slideCollectionRef, params.id)
-        onSnapshot(slideRef, (slide) => {
-            setTitle(slide.data().title)
-            setDescription(slide.data().description);
-        })
+        getSlide().then((doc) => {
+            console.log("here");
+            console.log(doc);
+            setTitle(doc.data().title);
+            setContent(doc.data().content);
+            console.log('%cEditSlide.jsx line:47 doc.data()', 'color: #007acc;', doc.data());
+        });
     }
 
     useEffect(() => {
@@ -69,6 +81,12 @@ export default function EditSlide({database}) {
 
     return (
         <div className='container'>
+            <Breadcrumbs className='breadcrumbs' aria-label="breadcrumb">
+                <Link className="link-back" underline="hover" color="inherit" onClick={() => navigate(`/presentation/${params.idPresentation}`)}>
+                    <ArrowBackIcon className='link-back-icon' />
+                    Retourner à la présentation
+                </Link>
+            </Breadcrumbs>
             <Snackbar open={showNotif} autoHideDuration={2000}>
                 <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
                     Slide sauvegardé !
@@ -78,7 +96,7 @@ export default function EditSlide({database}) {
             <div className='quill-section'>
                 <ReactQuill
                     className='react-quill'
-                    value={description}
+                    value={content || ''}
                     onChange={getQuillData}
                 />
             </div>

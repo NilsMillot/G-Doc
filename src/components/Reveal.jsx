@@ -8,6 +8,7 @@ export default function Reveal({ slides }) {
           {slides.map((slide, index) => (
             <section
               id={slide.title.replace(/ /g, "")}
+              data-id={slide.id}
               key={index}
               // data-background-color={slide.background}
             >

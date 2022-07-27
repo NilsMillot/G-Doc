@@ -34,14 +34,15 @@ function App() {
         <Route path="/home" element={<Home />} />
         <Route path="*" element={<div>Error 404</div>} />
         <Route
+          path="/presentation/:idPresentation/edit-slide/:id"
+          element={<EditSlide database={database} />}
+        />
+        <Route
           path="/presentation/:presentationId"
           element={<ViewSlidePresentation db={database} />}
         />
         <Route path="/presentation" element={<Presentations db={database} />} />
-        <Route
-          path="/edit-slide/:id"
-          element={<EditSlide database={database} />}
-        />
+      
         <Route
           path="/add-slide/:presentationId"
           element={<AddSlide db={database} />}
