@@ -63,7 +63,7 @@ export default function Login() {
                   <input
                     type="text"
                     placeholder="Email"
-                    className="name"
+                    className="name input"
                     id="outlined-basic"
                     label="Email"
                     variant="outlined"
@@ -74,7 +74,7 @@ export default function Login() {
                   <input
                     type="password"
                     placeholder="Password"
-                    className="name"
+                    className="name input"
                     id="outlined-basic"
                     label="Password"
                     variant="outlined"
