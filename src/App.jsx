@@ -12,6 +12,10 @@ import { database } from "./firebaseConfig";
 import EditSlide from "./components/EditSlide/EditSlide";
 import AddSlide from "./components/AddSlide/AddSlide";
 import checkConnectivity from "network-latency";
+import { DBConfig } from "./DBConfig";
+import { initDB } from "react-indexed-db";
+
+initDB(DBConfig);
 
 function App() {
   const [connected, setConnected] = useState(false);
