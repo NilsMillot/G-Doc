@@ -8,8 +8,8 @@ console.log("main.jsx");
 ReactDOM.render(
   <BrowserRouter>
     <React.StrictMode>
-      <App />
-    </React.StrictMode>
+        <App />
+      </React.StrictMode>
   </BrowserRouter>,
   document.getElementById("root")
 );
