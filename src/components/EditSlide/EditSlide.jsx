@@ -42,18 +42,12 @@ export default function EditSlide({database}) {
         return () => clearTimeout(updateSlide)
     }, [content])
 
-    async function getSlide () {
-        const docRef1 = doc(database, `presentations/${params.idPresentation}/slides`, params.id);
-        return await getDoc(docRef1);
-    }
     const getData = () => {
-        getSlide().then((doc) => {
-            console.log("here");
-            console.log(doc);
-            setTitle(doc.data().title);
-            setContent(doc.data().content);
-            console.log('%cEditSlide.jsx line:47 doc.data()', 'color: #007acc;', doc.data());
-        });
+        const slideDoc = doc(slideCollectionRef, params.id);
+        onSnapshot(slideDoc, (slide) => {
+            setTitle(slide.data().title)
+            setContent(slide.data().content);
+        })
     }
 
     useEffect(() => {
