@@ -1,7 +1,7 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../src/firebaseConfig";
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import Home from "./components/Home";
 import Login from "./components/auth/Login";
 import Register from "./components/auth/Register";
@@ -18,19 +18,17 @@ import { initDB } from "react-indexed-db";
 initDB(DBConfig);
 
 function App() {
-  const [connected, setConnected] = useState(false);
   const [user, loading, error] = useAuthState(auth);
+  const [connected, setConnected] = useState(false);
+  //const { currentUser } = useContext(UserContext);
 
   useEffect(() => {
-    if (!connected) {
-      user?.email ? setConnected(true) : setConnected(false);
-      console.log(user);
+    if (loading) {
+      // maybe trigger a loading screen
+      return;
     }
-  }, [user]);
-  checkConnectivity({
-    interval: 3000,
-    threshold: 2000,
-  });
+    if(user?.email) setConnected(true);
+  }, [user, loading]);
 
   let NETWORK_STATE = true;
 
@@ -76,7 +74,7 @@ function App() {
         <Route path="/" element={<Login />} />
         <Route path="/register" element={<Register />} />
 
-        <Route path="*" element={<NotConnected />} />
+        {loading ? <></> : <Route path="*" element={<NotConnected />} />}
       </Routes>
     );
   }
